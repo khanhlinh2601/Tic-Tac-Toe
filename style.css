@@ -1,0 +1,128 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html{
+    font-family: 'Lato', sans-serif;
+    font-size: 62.5%;
+}
+body{
+    font-size: 1.6rem;
+    text-align: center;
+}
+
+:root {
+    --bg-color: #fefeff;
+    --primary-color: #4a6884;
+    --secondary-color: #3a98d4;
+    --tertiary-color: #65c6eb;
+    --gray-color: #91a2ab;
+    --light-color: #f0f4fe;
+    --win-bg-color: rgba(214, 230, 234, 0.9);
+}
+.title{
+    font-size: 42px;
+    font-family: 'Balsamiq Sans', cursive;
+    color: var(--primary-color);
+}
+.subtitle{
+    font-size: 24px;
+    color: var(--primary-color);
+    margin: 10px 0 40px;
+}
+
+/* Container */
+.container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 30%);
+    grid-auto-rows: 120px;
+    justify-content: center;
+    gap: 0px;
+    margin: 0 auto;
+    max-width: 400px;
+}
+.container .item{
+    border: 1px solid var(--gray-color);
+    cursor: pointer;
+}
+.item:hover{
+    background-color: var(--light-color);
+}
+
+/* X */
+.item.x-turn::after,
+.item.x-turn::before{
+    content: "";
+    position: absolute;
+    height: 120px;
+    width: 4px;
+    background-color: var(--tertiary-color);
+}
+.item.x-turn::after{
+    transform: rotate(45deg);
+}
+.item.x-turn::before{
+    transform: rotate(-45deg);
+}
+.item.x-turn{
+    cursor: not-allowed;
+}
+
+/* O */
+.item.o-turn::before{
+    content: "";
+    position: absolute;
+    height: 90px;
+    width: 90px;
+    border: 4px solid var(--secondary-color);
+    border-radius: 50%;
+    display: block;
+    margin: 10px;
+}
+.item.o-turn{
+    cursor: not-allowed;
+}
+
+/* Current Player */
+#current-player,
+#current-player.x-turn{
+    color: var(--tertiary-color);
+}
+#current-player.o-turn{
+    color: var(--secondary-color);
+}
+
+/* Winner message */
+.win-message{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--win-bg-color);
+    color: var(--primary-color);
+    justify-content: center;
+    align-items: center;
+    font-size: 64px;
+    flex-direction: column;
+}
+.win-message.show{
+    display: flex;
+}
+.btn{
+    border: none;
+    background-color: var(--gray-color);
+    border-radius: 4px;
+    color: var(--bg-color);
+    cursor: pointer;
+    padding: 12px 14px;
+    font-size: 16px;
+    letter-spacing: 1px;
+    margin-top: 20px;
+}
+.btn:hover{
+    color: var(--primary-color);
+}
+
