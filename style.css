@@ -31,18 +31,22 @@ body{
     color: var(--primary-color);
     margin: 10px 0 40px;
 }
-
-/* Container */
 .container{
+    position: relative;
+    display: flex;
+}
+/* board */
+.board{
+    width: 400px;
+    height: 360px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, 30%);
-    grid-auto-rows: 120px;
+    grid-template-columns: 120px 120px 120px;
+    grid-template-rows: 120px 120px 120px;
     justify-content: center;
     gap: 0px;
     margin: 0 auto;
-    max-width: 400px;
 }
-.container .item{
+.board .item{
     border: 1px solid var(--gray-color);
     cursor: pointer;
 }
@@ -126,3 +130,24 @@ body{
     color: var(--primary-color);
 }
 
+/* history */
+#history{
+    height: 100%;
+    width: 200px;
+    position: absolute;
+    right: 20px;
+    overflow: auto;
+}
+#history > div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--win-bg-color);
+    margin-bottom: 10px;
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+} 
+#history > div:hover{
+    background-color: var(--gray-color);
+}
