@@ -1,5 +1,4 @@
 const boardElements = Array.from(document.querySelectorAll("#board div"));
-
 const currentPlayer = document.getElementById("current-player");
 const winMessage = document.getElementById("win-message");
 const winMessageText = document.getElementById("text-win-message");
@@ -39,7 +38,6 @@ const startGame = () => {
 
 //handle click on cell
 const handleTurn = (e) => {
-  
   const cell = e.target;
   const currentClass = circleTurn ? O_CLASS : X_CLASS;
   placeMark(cell, currentClass);
@@ -64,6 +62,11 @@ const handleTurn = (e) => {
   div.setAttribute("data-id", historyState.length - 1)
   div.textContent = 'step #' + (historyState.length - 1);
   document.querySelector("#history").appendChild(div)
+  const historyElements = Array.from(document.querySelectorAll("#history div"))
+  historyElements.forEach(step=>{
+    step.addEventListener("click", render)
+  })
+
 };
 //handle check x o on cell
 const placeMark = (cell, currentClass) => {
@@ -108,6 +111,22 @@ const checkWinner = (currentClass) => {
   });
 };
 //kiểm tra từng trường hợp win -> từng case check từng ô xem có class ("x-turn" or "o-turn") đó ko
-
+const render = (e)=>{
+  console.log(historyState[e.target.getAttribute("data-id")])
+  //remove về x o 
+  boardElements.forEach((cell) => {
+    cell.classList.remove(X_CLASS);
+    cell.classList.remove(O_CLASS);
+    cell.addEventListener("click", handleTurn, { once: true });
+  });
+  //thêm x o của mỗi step
+  for (let i= 1; i<=9; i++){
+    if (historyState[e.target.getAttribute("data-id")][i] == "x"){
+      boardElements[i-1].classList.add(X_CLASS)
+    }else if (historyState[e.target.getAttribute("data-id")][i] == "o"){
+      boardElements[i-1].classList.add(O_CLASS)
+    }
+  }
+}
 startGame();
 btnRestart.addEventListener("click", startGame);
