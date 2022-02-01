@@ -22,10 +22,13 @@ const state = ()=>{
 let historyState = [];
 historyState.push(state())
 let currentState
+let currentDataId=1;
+let currentStep=0;
 
 //start game
 const startGame = () => {
-  
+  currentStep=0;
+  currentDataId=1;
   boardElements.forEach((cell) => {
     cell.classList.remove(X_CLASS);
     cell.classList.remove(O_CLASS);
@@ -52,21 +55,23 @@ const handleTurn = (e) => {
   }
   
   //history
-  currentState = historyState[historyState.length-1].slice()
+  console.log(currentDataId)
+  currentState = historyState[currentDataId-1].slice()
   currentState[cell.getAttribute("data-id")] = currentClass == "x-turn" ? "x" : "o"
   historyState.push(currentState)
-
+  currentDataId=historyState.length; //1 ham check current step
+  currentStep+=1;
   //div step ui
   const div = document.createElement("div")
   div.className = "step"
   div.setAttribute("data-id", historyState.length - 1)
-  div.textContent = 'step #' + (historyState.length - 1);
+  div.setAttribute("step", currentStep)
+  div.textContent = 'step #' + (currentStep);
   document.querySelector("#history").appendChild(div)
   const historyElements = Array.from(document.querySelectorAll("#history div"))
   historyElements.forEach(step=>{
     step.addEventListener("click", render)
   })
-
 };
 //handle check x o on cell
 const placeMark = (cell, currentClass) => {
@@ -112,7 +117,9 @@ const checkWinner = (currentClass) => {
 };
 //kiểm tra từng trường hợp win -> từng case check từng ô xem có class ("x-turn" or "o-turn") đó ko
 const render = (e)=>{
-  console.log(historyState[e.target.getAttribute("data-id")])
+  // console.log(historyState[e.target.getAttribute("data-id")])
+  // console.log(e.target.getAttribute("data-id"))
+  // console.log(e.target.getAttribute("step"))
   //remove về x o 
   boardElements.forEach((cell) => {
     cell.classList.remove(X_CLASS);
@@ -120,13 +127,15 @@ const render = (e)=>{
     cell.addEventListener("click", handleTurn, { once: true });
   });
   //thêm x o của mỗi step
-  for (let i= 1; i<=9; i++){
+  for (let i= 0; i<=9; i++){
     if (historyState[e.target.getAttribute("data-id")][i] == "x"){
-      boardElements[i-1].classList.add(X_CLASS)
-    }else if (historyState[e.target.getAttribute("data-id")][i] == "o"){
-      boardElements[i-1].classList.add(O_CLASS)
+      boardElements[i].classList.add(X_CLASS)
+    }else if(historyState[e.target.getAttribute("data-id")][i] == "o"){
+      boardElements[i].classList.add(O_CLASS)
     }
   }
+  currentDataId = Number(e.target.getAttribute("data-id"))+1;
+  currentStep = Number(e.target.getAttribute("step"));
 }
 startGame();
 btnRestart.addEventListener("click", startGame);
